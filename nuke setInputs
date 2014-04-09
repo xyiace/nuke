@@ -4,3 +4,9 @@ for node in nuke.selectedNodes():
     print node.input(0).name()
     node.setInput(0,nuke.toNode('CheckerBoard1'))
     
+    
+    
+chek = nuke.nodes.CheckerBoard1
+sq = nuke.nodes.square1_1
+print chek
+print sq
