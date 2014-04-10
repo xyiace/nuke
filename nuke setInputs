@@ -13,14 +13,15 @@ print sq
 
 
 
-set param
-http://www.fxguide.com/forums/showthread.php?7715-Changing-Existing-Node-Parameters-using-Python-in-Nuke
-
-
 
 
 for node in nuke.selectedNodes():
 node['render_mode'].setValue (1)
+
+
+
+
+
 
 
 
