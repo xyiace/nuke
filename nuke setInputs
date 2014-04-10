@@ -19,6 +19,11 @@ http://www.fxguide.com/forums/showthread.php?7715-Changing-Existing-Node-Paramet
 
 
 
+for node in nuke.selectedNodes():
+node['render_mode'].setValue (1)
+
+
+
 
 
 
