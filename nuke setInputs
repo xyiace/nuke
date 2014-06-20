@@ -16,7 +16,7 @@ print sq
 
 
 for node in nuke.selectedNodes():
-node['render_mode'].setValue (1)
+    node['render_mode'].setValue (1)
 
 
 
