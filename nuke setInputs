@@ -20,6 +20,12 @@ for node in nuke.selectedNodes():
 
 
 
+Camera01_1.rotate.z>0?Camera01_1.rotate.z:Camera01_1.rotate.z+360
+//FIX pftrack to nuke camera z rotate
+
+
+
+
 
 
 
