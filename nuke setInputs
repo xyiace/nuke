@@ -24,12 +24,18 @@ Camera01_1.rotate.z>0?Camera01_1.rotate.z:Camera01_1.rotate.z+360
 //FIX pftrack to nuke camera z rotate
 
 
+
+
+
+
 // все риды старт эт 1
 for i in nuke.allNodes():
     if i.Class() == 'Read':
         i.knob("frame_mode").setValue("1")
         i.knob("frame").setValue("1")
         print ('test')
+
+
 
 
 
@@ -43,6 +49,51 @@ def allStartFramesToOne():
 sdMenu = menubar.addMenu('&sdMenu')
 sdSubMenu = sdMenu.addMenu('mySubMenu')
 sdSubMenu.addCommand('All selected Reads start frames to 1', 'allStartFramesToOne()')
+
+
+
+
+
+
+
+
+//вывести все кнобы у выделеного
+for i in nuke.selectedNode().knobs():
+    print i
+
+
+
+
+
+
+
+
+////референс фрейм у корнерпина
+t1 = nuke.selectedNode().knob('to1')
+t2 = nuke.selectedNode().knob('to2')
+t3 = nuke.selectedNode().knob('to3')
+t4 = nuke.selectedNode().knob('to4')
+
+xx = t1.x()
+yy = t1.y()
+
+xy1 = [t1.x(), t1.y()]
+xy2 = [t2.x(), t2.y()]
+xy3 = [t3.x(), t3.y()]
+xy4 = [t4.x(), t4.y()]
+
+nuke.selectedNode().knob('from1').setValue(xy1)
+nuke.selectedNode().knob('from2').setValue(xy2)
+nuke.selectedNode().knob('from3').setValue(xy3)
+nuke.selectedNode().knob('from4').setValue(xy4)
+
+
+
+nuke.selectedNode().knob('motionblur').setValue(1)
+nuke.selectedNode().knob('shutter').setValue(0.3)
+nuke.selectedNode().knob('shutteroffset').setValue(0)
+
+
 
 
 
