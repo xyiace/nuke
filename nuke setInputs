@@ -24,12 +24,27 @@ Camera01_1.rotate.z>0?Camera01_1.rotate.z:Camera01_1.rotate.z+360
 //FIX pftrack to nuke camera z rotate
 
 
-
+// все риды старт эт 1
 for i in nuke.allNodes():
     if i.Class() == 'Read':
         i.knob("frame_mode").setValue("1")
         i.knob("frame").setValue("1")
         print ('test')
+
+
+
+
+// все выделенные риды старт эт 1. вставлять в меню.ру, в папке плагинов
+def allStartFramesToOne():
+	for node in nuke.selectedNodes():
+	    node.knob('frame').setValue('1')
+	    node.knob('frame_mode').setValue('1')
+
+sdMenu = menubar.addMenu('&sdMenu')
+sdSubMenu = sdMenu.addMenu('mySubMenu')
+sdSubMenu.addCommand('All selected Reads start frames to 1', 'allStartFramesToOne()')
+
+
 
 
 
