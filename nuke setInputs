@@ -25,6 +25,15 @@ Camera01_1.rotate.z>0?Camera01_1.rotate.z:Camera01_1.rotate.z+360
 
 
 
+for i in nuke.allNodes():
+    if i.Class() == 'Read':
+        i.knob("frame_mode").setValue("1")
+        i.knob("frame").setValue("1")
+        print ('test')
+
+
+
+
 
 
 
