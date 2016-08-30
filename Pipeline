@@ -1,0 +1,154 @@
+
+set cut_paste_input [stack 0]
+version 8.0 v1
+push $cut_paste_input
+Crop {
+ box {0 35.79999924 2048 1115.800049}
+ reformat true
+ crop false
+ name Crop17
+ selected true
+ xpos 3458
+ ypos 235
+}
+
+
+
+
+set cut_paste_input [stack 0]
+version 8.0 v1
+LensDistortion {
+ inputs 0
+ serializeKnob ""
+ serialiseKnob "22 serialization::archive 9 0 0 0 0 3 0 0 0 0 0 8 0 0 0 146 980.75 392 984.40002 642.54999 986.45001 896.45001 987.75 1151.34 987.78003 1405.48 986.52002 1656.4 984.35999 1902.04 980.62 8 0 146 98.849998 391.60001 95.400002 642.52002 93.18 896.34998 91.699997 1151.45 91.599998 1405.52 93.139999 1656.4 95.339996 1902.08 98.779999 6 0 146.03999 981 143.56 805.31 142.46001 628.38 142.5 451.38 143.44 274.34 146.05 98.949997 0 0"
+ distortion1 -0.01987120323
+ distortion2 -0.001879195799
+ invertDistortion true
+ cardScale {0.9792183042 0.9792183042 1}
+ a 0.006260100752
+ b 0.01084429212
+ c 0.003262118436
+ drawingModeOn true
+ name LensDistortion4
+ selected true
+ xpos 3406
+ ypos 400
+}
+Crop {
+ box {{input.bbox.x} {input.bbox.y} {input.bbox.r} {input.bbox.t}}
+ reformat true
+ crop false
+ name Crop1
+ selected true
+ xpos 3406
+ ypos 464
+}
+Transform {
+ translate {-30 -16}
+ center {1054 556}
+ name Transform2
+ selected true
+ xpos 3406
+ ypos 507
+}
+push $cut_paste_input
+Colorspace {
+ colorspace_out sRGB
+ name Colorspace5
+ selected true
+ xpos 3857
+ ypos 452
+}
+LensDistortion {
+ serializeKnob ""
+ serialiseKnob "22 serialization::archive 9 0 0 0 0 3 0 0 0 0 0 8 0 0 0 146 980.75 392 984.40002 642.54999 986.45001 896.45001 987.75 1151.34 987.78003 1405.48 986.52002 1656.4 984.35999 1902.04 980.62 8 0 146 98.849998 391.60001 95.400002 642.52002 93.18 896.34998 91.699997 1151.45 91.599998 1405.52 93.139999 1656.4 95.339996 1902.08 98.779999 6 0 146.03999 981 143.56 805.31 142.46001 628.38 142.5 451.38 143.44 274.34 146.05 98.949997 0 0"
+ distortion1 -0.01987120323
+ distortion2 -0.001879195799
+ invertDistortion true
+ filter Rifman
+ cardScale {0.9792183042 0.9792183042 1}
+ a 0.006260100752
+ b 0.01084429212
+ c 0.003262118436
+ drawingModeOn true
+ name LensDistortion5
+ selected true
+ xpos 3857
+ ypos 544
+}
+Colorspace {
+ colorspace_in sRGB
+ name Colorspace6
+ selected true
+ xpos 3857
+ ypos 668
+}
+Merge2 {
+ inputs 2
+ name Merge3
+ selected true
+ xpos 3406
+ ypos 668
+}
+Colorspace {
+ colorspace_out sRGB
+ name Colorspace7
+ selected true
+ xpos 3406
+ ypos 895
+}
+LensDistortion {
+ serializeKnob ""
+ serialiseKnob "22 serialization::archive 9 0 0 0 0 3 0 0 0 0 0 8 0 0 0 146 980.75 392 984.40002 642.54999 986.45001 896.45001 987.75 1151.34 987.78003 1405.48 986.52002 1656.4 984.35999 1902.04 980.62 8 0 146 98.849998 391.60001 95.400002 642.52002 93.18 896.34998 91.699997 1151.45 91.599998 1405.52 93.139999 1656.4 95.339996 1902.08 98.779999 6 0 146.03999 981 143.56 805.31 142.46001 628.38 142.5 451.38 143.44 274.34 146.05 98.949997 0 0"
+ distortion1 -0.01987120323
+ distortion2 -0.001879195799
+ filter Rifman
+ cardScale {0.9792183042 0.9792183042 1}
+ a 0.006260100752
+ b 0.01084429212
+ c 0.003262118436
+ drawingModeOn true
+ name LensDistortion6
+ selected true
+ xpos 3406
+ ypos 957
+}
+Colorspace {
+ colorspace_in sRGB
+ name Colorspace8
+ selected true
+ xpos 3406
+ ypos 1012
+}
+Crop {
+ box {0 0 2048 1080}
+ reformat true
+ name Crop3
+ selected true
+ xpos 3406
+ ypos 1062
+}
+Transform {
+ translate {0 36}
+ center {1024 540}
+ name Transform4
+ selected true
+ xpos 3406
+ ypos 1104
+}
+Constant {
+ inputs 0
+ channels rgb
+ format "2048 1152 0 0 2048 1152 1 "
+ name Constant1
+ selected true
+ xpos 3673
+ ypos 978
+}
+Merge2 {
+ inputs 2
+ name Merge4
+ selected true
+ xpos 3673
+ ypos 1104
+}
