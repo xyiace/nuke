@@ -1,0 +1,20 @@
+WIRE
+
+for node in nuke.selectedNodes():
+    node['render_mode'].setValue (1)
+    
+
+
+
+SOLID+WIREFRAME
+
+for node in nuke.selectedNodes():
+    node['render_mode'].setValue (3)
+    
+
+    
+    
+TERTURE
+
+for node in nuke.selectedNodes():
+    node['render_mode'].setValue (4)
