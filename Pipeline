@@ -152,3 +152,39 @@ Merge2 {
  xpos 3673
  ypos 1104
 }
+
+
+
+
+
+set cut_paste_input [stack 0]
+version 9.0 v6
+push $cut_paste_input
+Write {
+ file D:/zzzz____sasha_bosenko/day/20160921/TOP-3-0880_v01.mov
+ file_type mov
+ meta_codec avc1
+ meta_encoder mov32
+ mov32_codec avc1
+ mov32_pixel_format {{0} "default (YCbCr  8-bit 422 (2vuy))" "RGBA  8-bit" "YCbCr  8-bit 422 (2vuy)"}
+ mov64_codec ap4h
+ mov64_bitrate 20000
+ mov64_bitrate_tolerance 40000000
+ mov64_quality_min 2
+ mov64_quality_max 31
+ mov64_gop_size 12
+ mov64_b_frames 0
+ checkHashOnRead false
+ version 11
+ name WRITE_MOV
+ selected true
+ xpos 1942
+ ypos 1057
+}
+
+
+
+
+
+
+
