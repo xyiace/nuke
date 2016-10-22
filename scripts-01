@@ -1,0 +1,21 @@
+синус
+
+
+set cut_paste_input [stack 0] 
+version 9.0 v8 
+push $cut_paste_input 
+NoOp { 
+name NoOp1 
+selected true 
+xpos 3420 
+ypos 1353 
+addUserKnob {20 User} 
+addUserKnob {7 sin1} 
+sin1 {{0.75+0.25*sin(pi/(2*period)*frame)}} 
+addUserKnob {7 sin2} 
+sin2 {{0.5+0.5*abs(sin(pi/(2*period)*frame))}} 
+addUserKnob {7 sin3} 
+sin3 {{0.5+0.2*random(frame)+0.3*sin(pi/(2*period)*frame)}} 
+addUserKnob {7 period R 0 1000} 
+period 20 
+}
