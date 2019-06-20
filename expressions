@@ -1,0 +1,14 @@
+// красить пиксели
+
+set cut_paste_input [stack 0]
+version 11.1 v1
+push $cut_paste_input
+Expression {
+ expr0 r>0.25?0.15:r
+ expr1 g>0.25?0.15:g
+ expr2 b>0.25?0.15:b
+ name Expression2
+ selected true
+ xpos 688
+ ypos 1020
+}
