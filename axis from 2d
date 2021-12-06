@@ -1,0 +1,102 @@
+set cut_paste_input [stack 0]
+version 12.2 v8
+push $cut_paste_input
+add_layer {P P.X P.Y P.Z P.red P.green P.blue P.alpha}
+Group {
+ name find3dPosition1
+ selected true
+ xpos -433
+ ypos -166
+ addUserKnob {20 main l Main}
+ addUserKnob {41 in l "Position pass" T Shuffle1.in}
+ addUserKnob {12 pos2d l "position 2d"}
+ addUserKnob {13 pos3d l "position 3d"}
+ pos3d {{pos.posxyz} {pos.posxyz} {pos.posxyz}}
+ addUserKnob {22 createAxis T "thisNode = nuke.thisNode()\npos = thisNode\['pos3d'].value()\n\nnuke.root().begin()\naxis = nuke.nodes.Axis()\naxis.setXYpos (thisNode.xpos()+120, thisNode.ypos())\naxis.knob('translate').setValue(pos)" +STARTLINE}
+}
+ Reformat {
+  inputs 0
+  name Reformat1
+  xpos 180
+  ypos 27
+ }
+ Expression {
+  temp_name0 ww
+  temp_expr0 "\[value input0.width]/2"
+  temp_name1 hh
+  temp_expr1 "\[value input0.height]/2"
+  channel0 rgba
+  expr0 "(size - sqrt(pow(x-ww, 2)/sx + pow(y-hh, 2)/sy )) / feather"
+  name circle1
+  xpos 180
+  ypos 63
+  addUserKnob {20 User}
+  addUserKnob {7 size R 0 1000}
+  size 3
+  addUserKnob {7 feather}
+  feather 1
+  addUserKnob {7 sx l "scale x"}
+  sx 1
+  addUserKnob {7 sy l "scale y"}
+  sy 1
+  addUserKnob {7 tx l "shift x"}
+  tx {{parent.pos2d.x}}
+  addUserKnob {7 ty l "shift y"}
+  ty {{parent.pos2d.y}}
+ }
+ Transform {
+  translate {{"parent.pos2d -960"} {"parent.pos2d -540"}}
+  center {960 540}
+  name Transform1
+  xpos 180
+  ypos 99
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -40
+  ypos -153
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos -78
+ }
+set N7c0f400 [stack 0]
+ Output {
+  name Output1
+  xpos -40
+  ypos 711
+ }
+push $N7c0f400
+ Dot {
+  name Dot2
+  xpos -116
+  ypos -78
+ }
+ Shuffle {
+  in P
+  name Shuffle1
+  label "\[value in]"
+  xpos -150
+  ypos 22
+ }
+ NoOp {
+  name pos
+  selected true
+  xpos -150
+  ypos 99
+  addUserKnob {20 User}
+  addUserKnob {12 pos l "" +STARTLINE}
+  pos {{parent.pos2d x1 578} {parent.pos2d x1 421}}
+  addUserKnob {13 posxyz l "" +STARTLINE}
+  posxyz {{"\[sample this red pos.x pos.y]"} {"\[sample this green pos.x pos.y]"} {"\[sample this blue pos.x pos.y]"}}
+ }
+ Viewer {
+  frame_range 1-100
+  fps 25
+  name Viewer1
+  xpos -260
+  ypos 99
+ }
+end_group
