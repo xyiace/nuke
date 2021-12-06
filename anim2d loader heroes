@@ -1,0 +1,20 @@
+set cut_paste_input [stack 0]
+version 12.2 v8
+push $cut_paste_input
+NoOp {
+ name load_Anim2d_heroes
+ selected true
+ xpos -266
+ ypos -68
+ addUserKnob {20 User}
+ addUserKnob {22 SetShot l "Set root shot" T "rootPath = nuke.root().name()\nprint rootPath\n\nep = int(rootPath.split('/')\[5]\[2:])\n\nseq = int(rootPath.split('/')\[6]\[8:])\n\nshot = int(rootPath.split('/')\[7]\[8:])\n\n\n\nnuke.thisNode().knob('ep').setValue(ep)\nnuke.thisNode().knob('seq').setValue(seq)\nnuke.thisNode().knob('shot').setValue(shot)\n" +STARTLINE}
+ addUserKnob {3 ep}
+ ep 1
+ addUserKnob {3 seq}
+ seq 4
+ addUserKnob {3 shot}
+ shot 422
+ addUserKnob {26 ""}
+ addUserKnob {22 LoadFromRoot T "print 'LoadFromRoot'\n\nimport os\nep = int(rootPath.split('/')\[5]\[2:])\nseq = int(rootPath.split('/')\[6]\[8:])\nshot = int(rootPath.split('/')\[7]\[8:])\nepTxt = ''\nsqTxt = ''\nshotTxt = ''\n\nif ep < 10:\n    epTxt = 'ep00' + str(ep)\nif ep >= 10:\n    epTxt = 'ep0' + str(ep)\n\nif sq < 10:\n    sqTxt = 'sq00' + str(sq)\nif sq >= 10:\n    sqTxt = 'sq0' + str(sq)\n\nif shot < 1000:\n    shotTxt = 'sh0' + str(shot)\nif shot >= 1000:\n    shotTxt = 'sh' + str(shot)\n\nnewPath = '//omega/heroes/shots/' + epTxt + '/' + epTxt + '_' + sqTxt + '/' + epTxt + '_' + shotTxt + '/anim2d/publish/elements/'\nnewPath=os.path.realpath(newPath)\nprint newPath\n\ncount = 0\n\n\nfor dirpath, dirnames, filenames in os.walk(newPath):\n    if filenames != \[]:\n        count = count + 1\n        for seq in nuke.getFileNameList(dirpath):\n            readNode = nuke.createNode('Read')\n            readNode.knob('file').fromUserText(dirpath + '/' + seq)\n" +STARTLINE}
+ addUserKnob {22 LoadFromInput T "print 'start LoadFromInput'\nimport os\nep = int(nuke.thisNode().knob('ep').value())\nsq = int(nuke.thisNode().knob('seq').value())\nshot = int(nuke.thisNode().knob('shot').value())\nepTxt = ''\nsqTxt = ''\nshotTxt = ''\n\nif ep < 10:\n    epTxt = 'ep00' + str(ep)\nif ep >= 10:\n    epTxt = 'ep0' + str(ep)\n\nif sq < 10:\n    sqTxt = 'sq00' + str(sq)\nif sq >= 10:\n    sqTxt = 'sq0' + str(sq)\n\nif shot < 1000:\n    shotTxt = 'sh0' + str(shot)\nif shot >= 1000:\n    shotTxt = 'sh' + str(shot)\n\nnewPath = '//omega/heroes/shots/' + epTxt + '/' + epTxt + '_' + sqTxt + '/' + epTxt + '_' + shotTxt + '/anim2d/publish/elements/'\nnewPath=os.path.realpath(newPath)\nprint newPath\n\ncount = 0\n\n\nfor dirpath, dirnames, filenames in os.walk(newPath):\n    if filenames != \[]:\n        count = count + 1\n        for seq in nuke.getFileNameList(dirpath):\n            readNode = nuke.createNode('Read')\n            readNode.knob('file').fromUserText(dirpath + '/' + seq)\n" +STARTLINE}
+}
