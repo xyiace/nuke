@@ -1,0 +1,114 @@
+import os
+from PySide2.QtWidgets import QApplication
+execfile(os.path.join(os.path.dirname(__file__), 'scripts.py'))
+
+def getCurrentPath():
+    s = nuke.thisNode()['file'].value()
+    s = s.replace('/', '\\')
+    return s
+
+def openPathInExplorer():
+    path = getCurrentPath()
+    path = path.rpartition('\\')[0]
+    path=os.path.realpath(path)
+    os.startfile(path)
+
+
+def toClip(str):
+    textToClip = str
+    cb = QApplication.clipboard()
+    cb.setText(textToClip, mode = cb.Clipboard)
+
+
+def pathToClipboard():
+    s = getCurrentPath()
+    print ('fdfdfddf:' + s)
+    toClip(s)
+    node = nuke.thisNode()
+    node['textPathKnobe'].setValue(s)
+
+
+def menuFunction():
+    print ('opa!')
+
+def openFolderFunction():
+    print ('go home nigga')
+    openPathInExplorer()
+
+
+# write
+def addKnobToWrite():
+    node = nuke.thisNode()
+
+    tabKnob = nuke.Tab_Knob('MyTab', '___OPEN___')
+    myKnob = nuke.PyScript_Knob('myKnob', 'Copy path', 'pathToClipboard()')
+    openKnob = nuke.PyScript_Knob('openKnob', 'Open', 'openFolderFunction()')
+    
+
+    node.addKnob(tabKnob)
+    node.addKnob(nuke.File_Knob('textPathKnobe', ''))
+    node.addKnob(myKnob)
+    node.addKnob(openKnob)
+
+# read
+def addKnobToRead():
+    node = nuke.thisNode()
+    myKnob = nuke.PyScript_Knob('readButton', 'Copy path', 'pathToClipboard()')
+    openKnob = nuke.PyScript_Knob('openKnob', 'Open', 'openFolderFunction()')
+    
+    
+    node.addKnob(nuke.Tab_Knob('readTab', '___OPEN___'))
+    node.addKnob(nuke.File_Knob('textPathKnobe', ''))
+    
+    
+    
+    node.addKnob(myKnob)
+    node.addKnob(openKnob)
+
+
+
+
+
+
+
+nuke.addOnUserCreate(addKnobToWrite, nodeClass = 'Write')
+nuke.addOnUserCreate(addKnobToRead, nodeClass = 'Read')
+
+
+
+m = nuke.menu('Nuke').addMenu('____Menu____')
+m.addCommand('test', 'menuFunction()')
+
+
+
+
+
+
+
+#################
+
+
+
+import bearsLoader
+
+
+
+
+def addBearspanel():
+    return bearsLoader.bearsPanel().addToPane()
+menu = nuke.menu('Pane')
+menu.addCommand('bearsPanel', addBearspanel, 'ctrl+shift+q')
+nukescripts.registerPanel('bearsPaneID', addBearspanel)
+
+
+
+
+
+
+
+
+
+
+
+
+
