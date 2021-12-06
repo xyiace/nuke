@@ -1,0 +1,1102 @@
+
+#bearsLoader
+
+import nukescripts
+import nuke
+import os
+import sgtk
+
+
+#dictionary for assets loaded from SH
+assListGlobal = {}
+
+
+def bearsTest ():
+    print 'sukaa'
+
+
+def bebe ():
+    print 'dddfdfdfdfd'
+    
+    
+
+
+
+#\\omega\bears\2_prod\ep210\sh0143\cut
+
+
+
+
+
+print 'suka'
+class bearsPanel (nukescripts.PythonPanel):
+
+
+    def __init__(self):
+        nukescripts.PythonPanel.__init__(self, 'bears loader 2021', 'bearsPaneID')
+        
+        self.btnSetCurrent = nuke.PyScript_Knob('btnSetCurrent', 'Set to current') ###btnSetCurrent
+        self.btnSetSelected = nuke.PyScript_Knob('btnSetSelected', 'Set to selected') ###btnSetSelected
+        self.btnEdit = nuke.PyScript_Knob('btnEdit', 'Open edit') ###btnEdit
+        self.btnAnimatic = nuke.PyScript_Knob('btnAnimatic', 'Open animatic') ###btnAnimatic
+        self.btnCut = nuke.PyScript_Knob('btnCut', 'Open cut') ###btnCut
+    
+        self.strEpisode = nuke.Int_Knob('strEpisode', 'Episode')
+        self.strShot = nuke.Int_Knob('strShot', 'Shot   ')
+
+        self.boolCCL = nuke.Boolean_Knob('boolCCL', 'Checked if clip')
+        
+        
+        
+        
+        self.strEpisode.setValue(208)
+        self.strShot.setValue(100)
+        
+        
+        
+        self.lstComps = nuke.Enumeration_Knob('lstComps', 'Comps versions', ['001', '002', '003'])
+        
+        
+        self.textDiv = nuke.Text_Knob('textDiv', '')
+        self.textDiv1 = nuke.Text_Knob('textDiv1', '')
+        self.textDiv2 = nuke.Text_Knob('textDiv2', '')
+        self.textDiv3 = nuke.Text_Knob('textDiv3', '')
+        self.textDiv4 = nuke.Text_Knob('textDiv4', '')
+        
+        
+
+        self.htmlImg = nuke.PyScript_Knob('htmlImg', '<img src="//omega/bears/3_post/ep208/sh0100/comp/out/v003/ep208.sh0100..comp.v003.00001.png" width="300" heiht="145">') ##### image
+        self.btnOpenLastIn = nuke.PyScript_Knob('btnOpenLastIn', 'Last in') ###btnOpenLastIn
+        self.btnOpenAllIns = nuke.PyScript_Knob('btnOpenAllIns', 'All ins') ###btnOpenAllIns
+        self.lstIns = nuke.Enumeration_Knob('lstIns', 'Ins versions', ['001', '002', '003'])
+
+        
+        self.console = nuke.Multiline_Eval_String_Knob('console', 'Consol`ka!')
+        self.lstAss = nuke.Enumeration_Knob('lstAss', 'assets in shot', ['qqq', 'aaa', 'zzz']) #### lstAss ASSSSSSSSS
+        self.btnLoadAss = nuke.PyScript_Knob('btnLoadAss', 'Load assets list') ###btnLoadAss
+        self.btnOpenAssConcept = nuke.PyScript_Knob('btnOpenAssConcept', 'Open concept') ###btnOpenAssConcept
+
+        
+        
+        
+        self.addKnob(self.btnSetCurrent)  ###btnSetCurrent
+        self.addKnob(self.btnSetSelected)  ###btnSetSelected
+        self.addKnob(self.btnEdit)  ###btnEdit
+        self.addKnob(self.btnAnimatic)  ###btnAnimatic
+        self.addKnob(self.btnCut)  ###btnCut
+
+
+
+        self.addKnob(self.textDiv1)
+ 
+
+        self.btnLoadOut = nuke.PyScript_Knob('btnLoadOut', 'Load out') ###btnLoadOut
+        self.btnLoadNearesr = nuke.PyScript_Knob('btnLoadNearesr', 'Load Nearest') ###btnLoadNearesr
+        
+        self.btnOpenLastComp = nuke.PyScript_Knob('btnOpenLastComp', 'Open comp!') #btnOpenLastComp
+        self.btnOpenFolder = nuke.PyScript_Knob('btnOpenFolder', 'Open folder') #btnOpenFolder
+        self.btnNewComp = nuke.PyScript_Knob('btnNewComp', 'New comp') #btnNewComp
+
+
+    
+        #pick episode and shot
+        self.addKnob(self.boolCCL)
+        self.addKnob(self.strEpisode)
+        self.addKnob(self.strShot)
+        
+        
+        
+        self.addKnob(self.lstComps)
+
+        
+        
+
+        
+        self.addKnob(self.textDiv)
+
+        ##########  IMAGEEEEE  ##########
+        ############   Ins   ############
+        self.addKnob(self.lstIns)
+        self.addKnob(self.htmlImg)
+        self.addKnob(self.btnOpenLastIn)
+        self.addKnob(self.btnOpenAllIns)
+        self.addKnob(self.textDiv4)
+
+
+        self.addKnob(self.btnLoadOut) ###btnLoadOut
+        self.addKnob(self.btnLoadNearesr) ###btnLoadNearesr
+
+        self.addKnob(self.textDiv2)
+
+        self.addKnob(self.btnOpenLastComp) ###btnOpenLastComp
+        self.addKnob(self.btnOpenFolder)#btnOpenFolder
+        self.addKnob(self.btnNewComp) ###btnNewComp
+
+        
+        self.addKnob(self.console)
+        self.addKnob(self.lstAss)
+        self.addKnob(self.btnLoadAss)
+        self.addKnob(self.btnOpenAssConcept)
+        
+        
+
+
+
+
+
+    def knobChanged(self, knob):
+        print 'all knobs: ' + knob.name()
+
+        if (knob == self.strShot) or (knob == self.strEpisode):
+            print ('Yessss, sdfdfdfdsfdsfdsfdsfuka!!!')
+            self.changeImage2(self.strEpisode.value(), self.strShot.value())
+
+
+
+
+        if knob == self.btnOpenLastComp:
+            print ('zzzzzzzz_open last comp starts')
+            self.openLastComp(self.strEpisode.value(), self.strShot.value())
+            
+
+
+
+
+        if knob == self.htmlImg:
+            print ('res(')
+            self.tt('jopka')
+            self.openViewer(self.strEpisode.value(), self.strShot.value())
+            
+            
+            
+            
+
+
+        if knob == self.btnOpenFolder:
+            print ('Folderrrr!!')
+            self.outsFolder(self.strEpisode.value(), self.strShot.value())
+        
+
+        if knob == self.btnSetCurrent:
+            print ('set currrr')
+            
+            self.strEpisode.setValue(self.getCurrentShot()[0])
+            self.strShot.setValue(self.getCurrentShot()[1])
+            self.changeImage2(self.strEpisode.value(), self.strShot.value())
+
+        if knob == self.btnSetSelected:
+            print ('set currrr')
+            
+            self.strEpisode.setValue(self.getSelectedShot()[0])
+            self.strShot.setValue(self.getSelectedShot()[1])
+            self.changeImage2(self.strEpisode.value(), self.strShot.value())
+
+
+
+
+
+
+
+        if knob == self.btnEdit:
+            self.tt('eddddit')
+            self.openEditFolder()
+            
+            
+            
+        if knob == self.btnAnimatic:
+            self.tt('ttt openAnimaticFolder')
+            self.openAnimaticFolder()
+
+        if knob == self.btnCut:
+            self.tt('ttt btnCut')
+            self.openCutFolder(self.strEpisode.value(), self.strShot.value())
+
+            
+            
+            
+            
+            
+            
+            
+            
+        if knob == self.btnOpenLastIn:
+            self.tt('ttt btnOpenLastIn')
+            self.openLastIn(self.strEpisode.value(), self.strShot.value())
+            
+        if knob == self.btnOpenAllIns:
+            self.tt('ttt btnOpenAllIns')
+            self.loadAllIns(self.strEpisode.value(), self.strShot.value())
+        
+            
+        if knob == self.btnLoadOut:
+            self.tt('ttt loadLastOut')
+            self.loadLastOut(self.strEpisode.value(), self.strShot.value())
+
+        if knob == self.btnNewComp:
+            self.tt('ttt btnNewComp')
+            self.createNewComp(self.strEpisode.value(), self.strShot.value())
+
+
+        if knob == self.btnLoadAss:
+            self.tt('ttt ASSSSSSSSS')
+            lstAss = self.loadAssetsList(self.strEpisode.value(), self.strShot.value())
+            self.lstAss.setValues(lstAss)
+
+
+        if knob == self.btnOpenAssConcept:
+            self.tt('ttt ASSSSSSSSS opennn')
+            print self.lstAss.value()
+            print (type(self.lstAss.value()))
+            self.openConceptFolder_SG( self.strEpisode.value(), self.strShot.value(), self.lstAss.value() )
+            
+            print assListGlobal
+
+
+        if knob == self.btnLoadNearesr:
+            self.tt('# btnLoadNearesr btnLoadNearesr #')
+            self.openNearesrOuts(self.strEpisode.value(), self.strShot.value())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @staticmethod
+    def fff(strrr):
+        print ('test' + strrr)
+
+    
+    def tt(self, strrr):
+        print ('test' + strrr)
+
+    def getCurrentShot(self):
+        print ('Get curr shot start')
+        rootPath = nuke.root().name()
+        epInt = int(rootPath.split('/')[5][2:])
+        shotInt = int(rootPath.split('/')[6][2:])
+        return(epInt, shotInt)
+
+    def getSelectedShot(self):
+        print ('Get sellll shot start')
+        node = nuke.selectedNode()
+        sss = node.knob('file').value()
+        self.toConsole(sss.split('/')[5][2:]+'   '+sss.split('/')[6][3:])
+        ep = int(sss.split('/')[5][2:])
+        shot = int(sss.split('/')[6][3:])
+        return(ep, shot)
+
+
+
+
+
+
+    ### changes shot preview
+    def changeImage2(self, knobEp, knobShot):
+        print 'NNNNNNNNNNNNNNNNNNNNNNNN IMAGE  IMAGE  IMAGE  IMAGE  IMAGE  IMAGE NNNNNNNNNNNNNNNNNNNNN'
+        html1 = '<img src="'
+        html2 = '" width="300" heiht="145">'
+        ep = knobEp
+        shot = knobShot
+        newPath = ''
+        
+        
+        print self.boolCCL.getValue()
+
+        funcPath = self.getOutPath(ep, shot)
+        newPath = funcPath
+        
+        print 'booooool _______ newpath'
+        print newPath
+        
+        
+        resPath = html1 + newPath + html2
+        print resPath
+        self.htmlImg.setLabel(resPath)
+        
+        allComps = self.findCompsList(self.strEpisode.value(), self.strShot.value())
+        allComps.sort(reverse = True)
+        noCompList = []
+        print '\n all comps:'
+        print allComps
+        
+        if allComps[-1] == 'noOut':
+            noCompList.append('No comp version yet')
+        
+        print '\n\n\n noooo comps:'
+        print noCompList
+        
+        
+        strAlina = ''
+        if ep <= 182:
+            strAlina = ('Hello, Alina, ep: ' + str(ep))
+        
+        
+        if len(noCompList) == 0:
+            print '\n\n comps 1111'
+            self.lstComps.setValues(allComps)
+            strCompsList = ''
+            for i in allComps:
+                strCompsList = strCompsList + i + '\n'
+
+            self.console.setValue(strCompsList)
+        else:
+            print '\n\n no comps 2222'
+            self.lstComps.setValues(noCompList)
+            self.console.setValue(noCompList[-1] + '\n' + strAlina)
+
+            
+
+            
+        return newPath
+
+
+
+
+
+
+
+##########  function for searching last outs filepath. 182 also works
+    def getOutPath(self, knobEp, knobShot):
+        ep = knobEp
+        shot = knobShot
+    
+        epStr = ''
+        shotStr = ''
+        newPath = ''
+       
+        if ep <= 182:
+            self.toConsole('Hello, Alina, ep: ' + str(ep))
+        #print 'stop 1'
+
+        if ep<10:
+            epStr = 'ep00' + str(ep)
+        #    print 'stop 2 + epStr' + str(epStr)
+            if shot<10:
+                newPath = '//omega/bears/3_post/ep00' + str(ep) + '/sh00' + str(shot) + '/out/'
+                shotStr = 'sh00' + str(shot)
+        #        print 'stop 3 + ' + str(epStr) +'  ' + str(shotStr)
+            else:
+                newPath = '//omega/bears/3_post/ep00' + str(ep) + '/sh0' + str(shot) + '/out/'
+                shotStr = 'sh0' + str(shot)
+                print 'stop 4 + ' + str(epStr) +'  ' + str(shotStr)
+        #print 'stop 5 + ' + str(newPath)
+
+        if (ep>=10)and(ep<100):
+            epStr = 'ep0' + str(ep)
+            if shot<10:
+                newPath = '//omega/bears/3_post/ep0' + str(ep) + '/sh00' + str(shot) + '/out/'
+                shotStr = 'sh00' + str(shot)
+            else:
+                newPath = '//omega/bears/3_post/ep0' + str(ep) + '/sh0' + str(shot) + '/out/'
+                shotStr = 'sh0' + str(shot)
+
+        #print 'stop 6 + ' + str(epStr) +'  ' + str(shotStr)
+        #print 'stop 7 + ' + str(newPath)
+
+                    
+        if (ep>=100) and (ep<=182):
+            epStr = 'ep' + str(ep)
+            if shot<10:
+                newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh00' + str(shot) + '/out/'
+                shotStr = 'sh00' + str(shot)
+            else:
+                newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot) + '/out/'
+                shotStr = 'sh0' + str(shot)
+
+        #print 'stop 8 + ' + str(epStr) +'  ' + str(shotStr)
+        #print 'stop 9 + ' + str(newPath)
+
+        if ep>182:
+            newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot)+ '/comp/out/'        
+        print 'stop 10 + ' + str(newPath)
+        
+        
+        try:
+            if ep<=182:
+                compVersion = os.listdir(newPath)
+                onlyVersions = []
+                for i in compVersion:
+                #    print ('zzzz ' + i)
+                    if not ('notitle' in i)and(len(i)<5):
+                        onlyVersions.append(i)
+                print onlyVersions[-1]
+                newPath = newPath + onlyVersions[-1] +'/'+ str(epStr)+ '_' + str(shotStr)+ '_comp_' + onlyVersions[-1] + '.00001.png'
+        except:
+                print 'no out version('
+                newPath = '//omega/bears/zzz___bearsLoader/img/noOut/noOut.0001.png'
+            
+        print 'stop 11 + ' + str(newPath)
+        
+        
+        try:
+            if ep>182:
+                compVersion = os.listdir(newPath)
+                onlyVersions = []
+                for i in compVersion:
+                #    print ('zzzz ' + i)
+                    if not ('notitle' in i)and(len(i)<5):
+                        onlyVersions.append(i)
+                #print onlyVersions[-1]
+                newPath = newPath + onlyVersions[-1]+ '/ep' + str(ep)+ '.sh0' + str(shot)+ '..comp.' + onlyVersions[-1] + '.00001.png'
+        except:
+                print 'no out version('
+                newPath = '//omega/bears/zzz___bearsLoader/img/noOut/noOut.0001.png'
+                
+                
+                
+        print '_______________CLIPPPPPPPPPPPPPP'
+        if self.boolCCL.getValue() == 1:
+            newPath = '//omega/bears/3_post/cl0' + str(ep) + '/sh0' + str(shot) + '/comp/out/'
+            print newPath
+            
+            try:
+                compVersion = os.listdir(newPath)
+                onlyVersions = []
+                for i in compVersion:
+                #    print ('zzzz ' + i)
+                    if not ('notitle' in i)and(len(i)<5):
+                        onlyVersions.append(i)
+                print onlyVersions[-1]
+                newPath = newPath + onlyVersions[-1]+ '/cl0' + str(ep)+ '.sh0' + str(shot)+ '..comp.' + onlyVersions[-1] + '.00001.png'
+            except:
+                print 'no out version('
+                newPath = '//omega/bears/zzz___bearsLoader/img/noOut/noOut.0001.png'
+
+        print newPath
+        print '/////_______________CLIPPPPPPPPPPPPPP'
+        
+        print 'booool 11111111111'
+
+
+        return newPath
+
+
+###   //omega/bears/3_post/cl011/sh0102/comp/out/v001/cl011.sh0102..comp.v001.#####.png
+###   //omega/bears/3_post/ep221/sh0173/comp/out/v005/ep221.sh0173..comp.v005.#####.png
+###   //omega/bears/3_post/cl011/sh0101/out/v001/cl011_sh0101_comp_v001.#####.png
+
+
+    ### openLastComp
+    def openLastComp(self, knobEp, knobShot):
+        ep = knobEp
+        shot = knobShot
+        
+        print '\n'
+        print ep
+        print shot
+
+        if (ep < 10):
+            if (shot < 100) and (shot >= 10):
+                newPath = '//omega/bears/3_post/ep00' + str(ep) + '/sh0' + str(shot) +'/comp'
+            if (shot<10):
+                newPath = '//omega/bears/3_post/ep00' + str(ep) + '/sh00' + str(shot) +'/comp'
+
+
+
+        if (ep <= 100) and (ep >= 10):
+            if (shot < 100) and (shot >= 10):
+                newPath = '//omega/bears/3_post/ep0' + str(ep) + '/sh0' + str(shot) +'/comp'
+            if (shot<10):
+                newPath = '//omega/bears/3_post/ep0' + str(ep) + '/sh00' + str(shot) +'/comp'
+
+
+        
+        if (ep <= 182) and (ep >= 100):
+            if (shot < 100) and (shot >= 10):
+                newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot) +'/comp'
+            if (shot<10):
+                newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh00' + str(shot) +'/comp'
+        
+        if ep > 182:
+            newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot)+ '/comp/work/nuke'
+            
+            
+        if self.boolCCL.getValue() == 1:
+            newPath = '//omega/bears/3_post/cl0' + str(ep) + '/sh0' + str(shot)+ '/comp/work/nuke'
+        
+        ###   //omega/bears/3_post/cl011/sh0101/comp/work/nuke/cl011_sh0101_comp_v001.nk
+        
+        
+        
+        compVersion = os.listdir(newPath)
+        print('comp opn stars    2021!!!!!!!!!!!!!!!!!!!!!')
+        onlyComps = []
+        for i in compVersion:
+            if not ('snapshots' in i) and not ('~' in i) and not ('Write' in i) and not ('autosave' in i)  and not ('promo' in i) and not ('notitle' in i):
+                onlyComps.append(i)
+                print ('addind ' + i)
+            else: print ('   decliing ' + i)
+            
+        onlyComps[-1]
+        newPath = newPath +'/'+ onlyComps[-1]
+        nuke.scriptOpen(newPath)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    def findCompsList(self, knobEp, knobShot):
+        ep = knobEp
+        shot = knobShot
+        #newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot)+ '/comp/work/nuke'
+        if (ep < 10):
+            if (shot < 100) and (shot >= 10):
+                newPath = '//omega/bears/3_post/ep00' + str(ep) + '/sh0' + str(shot) +'/comp'
+            if (shot<10):
+                newPath = '//omega/bears/3_post/ep00' + str(ep) + '/sh00' + str(shot) +'/comp'
+        if (ep <= 100) and (ep >= 10):
+            if (shot < 100) and (shot >= 10):
+                newPath = '//omega/bears/3_post/ep0' + str(ep) + '/sh0' + str(shot) +'/comp'
+            if (shot<10):
+                newPath = '//omega/bears/3_post/ep0' + str(ep) + '/sh00' + str(shot) +'/comp'
+        if (ep <= 182) and (ep >= 100):
+            if (shot < 100) and (shot >= 10):
+                newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot) +'/comp'
+            if (shot<10):
+                newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh00' + str(shot) +'/comp'
+        if ep > 182:
+            newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot)+ '/comp/work/nuke'
+
+        try:
+            compVersion = os.listdir(newPath)
+            onlyComps = []
+        except:
+            onlyComps = []
+            onlyComps.append('noOut')
+        
+        try:
+            for i in compVersion:
+                if not ('snapshots' in i) and not ('~' in i) and not ('Write' in i) and not ('autosave' in i):
+                    onlyComps.append(i)
+                    #print ('addind ' + i)
+            #    else: print ('   decliing ' + i)
+        except:
+            onlyComps.append('noOut')
+        print onlyComps[-1]
+        
+        if not onlyComps[-1] == 'noOut':
+            newPath = newPath +'/'+ onlyComps[-1]
+
+        return onlyComps
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+    def outsFolder(self, knobEp, knobShot):
+        print ('open out func starts')
+        ep = knobEp
+        shot = knobShot
+        newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot)+ '/comp/out/'
+
+        newPath = os.path.realpath(newPath)
+        os.startfile(newPath)
+
+    def openViewer(self, knobEp, knobShot):
+
+        ep = knobEp
+        shot = knobShot
+        
+        outsPath = ''
+        outsPath = self.getOutPath(ep, shot)
+        newPath = outsPath
+        newPath = os.path.realpath(newPath)
+        os.startfile(newPath)
+
+
+
+    def openEditFolder(self):
+        print 'openEditFolder start'
+        editPath = '//omega/bears/3_post/ep' + str(self.strEpisode.value()) +'/edit'
+        editPath = os.path.realpath(editPath)
+        os.startfile(editPath)
+        print 'openEditFolder end'
+
+
+    def openAnimaticFolder(self):
+        print 'openAnimaticFolder start'
+        editPath = '//omega/bears/1_pre/ep' + str(self.strEpisode.value()) +'/animatic'
+        editPath = os.path.realpath(editPath)
+        os.startfile(editPath)
+        print 'openAnimaticFolder end'
+
+    def openCutFolder(self, knobEp, knobShot):
+        print 'ooopn cutttttt'
+        #\\omega\bears\2_prod\ep210\sh0143\cut
+        
+        cutPath = '//omega/bears/2_prod/ep' + str(knobEp) + '/sh0' + str(knobShot) + '/cut'
+        cutPath = os.path.realpath(cutPath)
+        os.startfile(cutPath)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def findLastIn(self, knobEp, knobShot):
+        ep = knobEp
+        shot = knobShot
+        newPath = ''
+        shotStr = ''
+        
+        if ep<100:
+            if shot<10:
+                shotStr = 'sh00'+str(shot)
+            else: shotStr = 'sh0'+str(shot)
+            newPath = '//omega/bears/3_post/ep0' + str(ep) + '/' + shotStr + '/in/'
+            
+        if ep>=100:
+            newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot)+ '/in/'
+        print '\n!!!!!!!!!!!!'
+        print newPath
+
+        insAllVersions = os.listdir(newPath)
+        onlyInVersions = []
+        strOnlyInVersions = ''
+
+        for i in insAllVersions:
+            print ('zzzz ' + i)
+            if i.startswith('v'):
+                onlyInVersions.append(i)
+                strOnlyInVersions = strOnlyInVersions + i + '\n'
+                
+        if len(onlyInVersions) == 0:
+            strOnlyInVersions = 'pusto('
+            print 'pusto((((((('
+        self.toConsole(strOnlyInVersions)
+        
+        
+        print onlyInVersions[-1]
+        
+        if (ep<100):
+            if shot<10:
+                shotStr = 'sh00'+str(shot)
+            else: shotStr = 'sh0'+str(shot)
+            
+            lastInPath = newPath + onlyInVersions[-1] + '/ep0' + str(ep) + '_' + shotStr + '_render_' + onlyInVersions[-1] + '.####.exr'
+            print 'sss111 ' + lastInPath
+        
+        if (ep>=100)and(ep<=182):
+            if shot<10:
+                shotStr = 'sh00'+str(shot)
+            else: shotStr = 'sh0'+str(shot)
+            lastInPath = newPath + onlyInVersions[-1] + '/ep' + str(ep) + '_' + shotStr + '_render_' + onlyInVersions[-1] + '.####.exr'
+            print 'sss222 ' + lastInPath
+
+        
+        if ep>182:
+            lastInPath = newPath + onlyInVersions[-1] + '/ep' + str(ep) + '.sh0' + str(shot) + '..render.' + onlyInVersions[-1] + '.####.exr'
+        
+        
+        
+        return lastInPath
+
+
+    def openLastIn(self, knobEp, knobShot):
+            ep = knobEp
+            shot = knobShot
+            print 'openLastIn openLastIn openLastIn '
+            
+            strLastIn = self.findLastIn(ep, shot)
+            print '\nFilepath from function: ' + strLastIn
+            #newRead = nuke.nodes.Read()
+            newRead = nuke.createNode('Read', inpanel = False)
+            newRead.knob('file').setValue(strLastIn)
+            sss = strLastIn
+            print 'lllllllllllok    ' + sss[:42]
+            try:
+                filesNum = os.listdir(sss[:42])
+                lastFrame = filesNum[-1][27:30]
+            except:
+                lastFrame = len(os.listdir(sss.rpartition('/')[0]))
+            lastFrame = int(lastFrame)
+            print lastFrame
+            newRead.knob('last').value()
+            newRead.knob('last').setValue(lastFrame)
+
+
+
+    def allInsList(self, knobEp, knobShot):
+        ep = knobEp
+        shot = knobShot
+        newPath = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot)+ '/in/'
+        print newPath
+
+        insAllVersions = os.listdir(newPath)
+        onlyInVersions = []
+        strOnlyInVersions = ''
+        allInsPaths = []
+        allIns = []
+
+        for i in insAllVersions:
+            print ('zzzz ' + i)
+            if i.startswith('v'):
+                onlyInVersions.append(i)
+                strOnlyInVersions = strOnlyInVersions + i + '\n'
+
+                lll = []
+                inPath = ''
+                inPath = newPath + i + '/ep' + str(ep) + '.sh0' + str(shot) + '..render.' + i + '.####.exr'
+                lll.append(inPath)
+                sss = inPath
+                sss[:42]
+                filesNum = os.listdir(sss[:42])
+                lastFrame = filesNum[-1][27:30]
+                if lastFrame == '':
+                    lastFrame = '1'
+                print lastFrame
+                lastFrame = int(lastFrame)
+                print lastFrame
+                lll.append(lastFrame)
+                allIns.append(lll)
+        
+        if len(onlyInVersions) == 0:
+            strOnlyInVersions = 'pusto('
+            print 'pusto((((((('
+        
+        print onlyInVersions[-1]
+
+        print '________________________________________________'
+        for i in allIns:
+            print i
+        return allIns
+
+
+
+
+
+
+
+
+
+
+    def loadAllIns(self, knobEp, knobShot):
+            ep = knobEp
+            shot = knobShot
+            print 'openLastIn openLastIn openLastIn '
+            ins = self.allInsList(knobEp, knobShot)
+            nn = []
+            for i in ins:
+                #newRead = nuke.nodes.Read()
+                newRead = nuke.createNode('Read', inpanel = False)
+                newRead.knob('file').setValue(i[0])
+                newRead.knob('last').setValue(i[1])
+                nn.append(newRead)
+            print '\n'  
+            for i in nn:
+                print '@' * 37
+                print i
+                #nn['selected'].setValue(True)
+            print '\n'
+            print nn
+            for n in nn:
+                n.autoplace()
+            
+                
+
+
+
+
+
+
+    def loadLastOut(self, knobEp, knobShot):
+        ep = knobEp
+        shot = knobShot
+        newPath = ''
+        funcPath = self.getOutPath(ep, shot)
+        fixPath = funcPath.rpartition('.')[0].rpartition('.')[0] + '.#####.png'
+        funcPath = fixPath
+        #newRead = nuke.nodes.Read()
+        newRead = nuke.createNode('Read', inpanel = False)
+        newRead.knob('file').setValue(funcPath)
+        sss = funcPath
+        sss[:48]
+        try:
+            filesNum = os.listdir(sss[:48])
+            lastFrame = filesNum[-1][26:29]
+        except:
+            lastFrame = len(os.listdir(sss.rpartition('/')[0]))
+        lastFrame = int(lastFrame)
+        print lastFrame
+        newRead.knob('last').value()
+        newRead.knob('last').setValue(lastFrame)
+        return 'out'
+
+
+
+
+
+    def createNewComp(self, knobEp, knobShot):
+        ep = knobEp
+        shot = knobShot
+        last = 666
+        vvv = 1
+
+        engine = sgtk.platform.current_engine()
+        ctx = engine.context
+        sg = engine.shotgun  
+        searchShot = 'ep' + str(ep) + '_sh0' + str(shot)
+        filters = [['code', 'is', searchShot]]
+        fields = ['code']
+        print 'bool step 11111'
+        try:
+            result = sg.find_one('Shot', filters, fields)
+        
+        
+            result['id']
+            filters = [
+                ['id', 'is', result['id']],
+                ['project', 'is', {'type': 'Project', 'id': 74}]
+            ]
+            fields = ['code', 'sg_frame_from', 'sg_frame_to']
+            result = sg.find_one('Shot', filters, fields)
+            last = result['sg_frame_to']
+            print str(last) + '  sg last'
+        except:
+            print 'no SG 4 this shot =(((('
+            
+            
+        vvv = 1
+        vFinal = False
+        newStrRoot = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot) + '/comp/work/nuke/ep' + str(ep) + '.sh0' + str(shot) + '..comp.v00'+ str(vvv) + '.nk'
+        
+        if self.boolCCL.getValue() == 1:
+            newStrRoot = '//omega/bears/3_post/cl0' + str(ep) + '/sh0' + str(shot) + '/comp/work/nuke/cl0' + str(ep) + '.sh0' + str(shot) + '..comp.v00'+ str(vvv) + '.nk'
+        
+        
+        
+        #newStrRoot = 'D:/Fff/cmp/v00' + str(vvv) + '.nk'
+
+        print '\n'
+        print str(vvv) +' '+ newStrRoot 
+
+        while vFinal == False:
+            if os.path.exists(newStrRoot):
+                print str(vvv) +' '+ newStrRoot 
+                vvv = vvv + 1
+                newStrRoot = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot) + '/comp/work/nuke/ep' + str(ep) + '.sh0' + str(shot) + '..comp.v00'+ str(vvv) + '.nk'
+                
+                if self.boolCCL.getValue() == 1:
+                    newStrRoot = '//omega/bears/3_post/cl0' + str(ep) + '/sh0' + str(shot) + '/comp/work/nuke/cl0' + str(ep) + '.sh0' + str(shot) + '..comp.v00'+ str(vvv) + '.nk'
+                
+                #newStrRoot = 'D:/Fff/cmp/v00' + str(vvv) + '.nk'
+                ###   //omega/bears/3_post/cl011/sh0101/comp/work/nuke/cl011_sh0101_comp_v001.nk
+
+            else:
+                print str(vvv) +' '+ newStrRoot 
+                vFinal = True
+        print str(vvv) + ' ' + newStrRoot 
+                
+
+        fps = 25
+        newfps = '\n fps ' + str(fps)
+        newFormat = '\n format "1920 1080 0 0 1920 1080 1 HD_1080"'
+
+        f = open('//omega/bears/zzz___bearsLoader/blankScript/begin.txt','r')
+        txt_script = f.read()
+        f.close()
+
+        txt_script = txt_script + '\n name ' + newStrRoot
+        '\n name //omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot) + '/comp/work/nuke/ep' + str(ep) + '.sh0' + str(shot) + '..comp.v001.nk'
+
+        txt_script = txt_script + '\n last_frame ' + str(last)
+        txt_script = txt_script + newfps
+        txt_script = txt_script + newFormat
+
+        f = open('//omega/bears/zzz___bearsLoader/blankScript/end.txt','r')
+        txt_end = f.read()
+        f.close()
+
+        txt_script = txt_script + '\n' + txt_end 
+        print txt_script 
+
+
+        newRoot = '//omega/bears/3_post/ep' + str(ep) + '/sh0' + str(shot) + '/comp/work/nuke/ep' + str(ep) + '.sh0' + str(shot) + '..comp.v001.nk'
+        if self.boolCCL.getValue() == 1:
+            newRoot = '//omega/bears/3_post/cl0' + str(ep) + '/sh0' + str(shot) + '/comp/work/nuke/cl0' + str(ep) + '.sh0' + str(shot) + '..comp.v001.nk'
+        
+        
+
+        
+        newRoot = newStrRoot
+        newRoot.rpartition('/')[0]
+        os.path.exists('//omega/bears/3_post/ep205/sh0145/comp/work/')
+        newFolderPath = newRoot.rpartition('/')[0]
+        if not os.path.exists(newFolderPath):
+            print 'no  ' + newFolderPath 
+            os.makedirs(newFolderPath)
+
+        f = open(newRoot,'w')
+        f.write(txt_script)
+        f.close()
+        
+        
+        self.changeImage2(ep, shot)
+        
+        return 'dd'
+
+
+
+
+    def loadAssetsList(self, knobEp, knobShot):
+        engine = sgtk.platform.current_engine()
+        ctx = engine.context
+        sg = engine.shotgun  
+        ep = knobEp
+        shot = knobShot
+        searchShot = 'ep' + str(ep) + '_sh0' + str(shot)
+        filters = [['code', 'is', searchShot]]
+        fields = ['code']
+        result = sg.find_one('Shot', filters, fields)
+        result['id']
+        filters = [['id', 'is', result['id']]]
+        fields = ['assets']
+        result = sg.find_one('Shot', filters, fields)
+        global assListGlobal
+        assListGlobal = result
+        lstAss = []
+        for i in result['assets']:
+            lstAss.append(i['name'])
+        for i in lstAss:
+            print i
+        return lstAss
+
+
+    def openConceptFolder_SG(self, knobEp, knobShot, assStr):
+        search = assStr
+        engine = sgtk.platform.current_engine()
+        ctx = engine.context
+        sg = engine.shotgun
+        print 'stop1'
+        ep = knobEp
+        shot = knobShot
+        searchShot = 'ep' + str(ep) + '_sh0' + str(shot)
+        print 'stop2 ' + str(searchShot)
+        filters = [['code', 'is', searchShot]]
+        fields = ['code']
+        result = sg.find_one('Shot', filters, fields)
+        result['id']
+        search = result['id']
+        print 'stop3'
+        filters = [
+            ['id', 'is', search],
+        ]
+        fields = ['assets']
+        result = sg.find_one('Shot', filters, fields)
+        result['assets'][5]
+        print 'stop4'
+        search = 'prop_items_bone_string'
+        search = 'prop_items_sabers_pirates_museum'
+        search = 'ch_mermaid'
+        search = assStr
+        print 'stop5'
+        print '\n'
+        for i in result['assets']:
+            #print i['name']
+            if i['name'] == search:
+                print i['id']
+                search = i['id']
+        print search 
+        print 'stop6'
+        asset_result = sg.find_one('Asset', [['id', 'is', search]], ['tasks'])
+        print '\n'
+        for i in asset_result['tasks'] :
+            if i['name'] == 'Concept':
+                print i['id']
+                search = i['id']
+        type(search)
+        PublishedFile = sg.find_one('PublishedFile', [['task', 'is', {'type': 'Task', 'id': search}]], ['path'], [{'field_name':'created_at', 'direction':'desc'}])
+        path = PublishedFile['path']['local_path']
+        path = path.rpartition('\\')[0]
+        path=os.path.realpath(path)
+        print path
+        os.startfile(path)
+
+
+
+
+
+
+    def openNearesrOuts(self, knobEp, knobShot):
+        ep = knobEp
+        shot = knobShot - 1
+        self.loadLastOut(ep, shot)
+        
+        shot = knobShot + 1
+        self.loadLastOut(ep, shot)
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def toConsole (self, text):
+        self.console.setValue(text)
+
+
+
+
+
+
