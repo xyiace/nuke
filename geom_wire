@@ -24,7 +24,6 @@ for node in nuke.selectedNodes():
 
 
 
-
 set cut_paste_input [stack 0]
 version 12.2 v5
 push $cut_paste_input
@@ -34,7 +33,7 @@ NoOp {
  xpos -1837
  ypos -2086
  addUserKnob {20 User}
- addUserKnob {22 btnSolWire l "Solid + wireframe" T "for node in nuke.selectedNodes():\n    node\['render_mode'].setValue (3)" +STARTLINE}
- addUserKnob {22 btnWire l Wirefrane T "for node in nuke.selectedNodes():\n    node\['render_mode'].setValue (1)" +STARTLINE}
- addUserKnob {22 btnTexture l Texture T "for node in nuke.selectedNodes():\n    node\['render_mode'].setValue (4)" +STARTLINE}
+ addUserKnob {22 btnSolWire l "Solid + wireframe" T "try:\n    for node in nuke.selectedNodes():\n        node\['render_mode'].setValue (3)\nexcept:\n    print 'ops('\n" +STARTLINE}
+ addUserKnob {22 btnWire l Wirefrane T "try:\n    for node in nuke.selectedNodes():\n        node\['render_mode'].setValue (1)\nexcept:\n    print 'ops('\n" +STARTLINE}
+ addUserKnob {22 btnTexture l Texture T "try:\n    for node in nuke.selectedNodes():\n        node\['render_mode'].setValue (4)\nexcept:\n    print 'ops('\n" +STARTLINE}
 }
