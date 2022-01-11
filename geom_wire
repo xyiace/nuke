@@ -18,3 +18,23 @@ TERTURE
 
 for node in nuke.selectedNodes():
     node['render_mode'].setValue (4)
+
+
+
+
+
+
+
+set cut_paste_input [stack 0]
+version 12.2 v5
+push $cut_paste_input
+NoOp {
+ name Geo_mode
+ selected true
+ xpos -1837
+ ypos -2086
+ addUserKnob {20 User}
+ addUserKnob {22 btnSolWire l "Solid + wireframe" T "for node in nuke.selectedNodes():\n    node\['render_mode'].setValue (3)" +STARTLINE}
+ addUserKnob {22 btnWire l Wirefrane T "for node in nuke.selectedNodes():\n    node\['render_mode'].setValue (1)" +STARTLINE}
+ addUserKnob {22 btnTexture l Texture T "for node in nuke.selectedNodes():\n    node\['render_mode'].setValue (4)" +STARTLINE}
+}
