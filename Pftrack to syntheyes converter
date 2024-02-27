@@ -1,0 +1,26 @@
+set cut_paste_input [stack 0]
+version 15.0 v1
+push $cut_paste_input
+NoOp {
+ name Pftrack
+ label "to\nsyntheyes\nconverter"
+ selected true
+ xpos 1764
+ ypos 508
+ addUserKnob {20 User l "Pftrack to syntheyes converter"}
+ addUserKnob {2 file_open l "pftrack trackers"}
+ file_open D:/Projects/_OPL/3d/track/PLN_5550/trackers.txt
+ addUserKnob {26 text l "" +STARTLINE}
+ addUserKnob {2 file_save l "save to"}
+ file_save D:/Projects/_OPL/elem/PLN_5550/zzz___test_2.txt
+ addUserKnob {26 text_1 l "" +STARTLINE}
+ addUserKnob {3 int_old_x l "old format"}
+ int_old_x 2048
+ addUserKnob {3 int_old_y l "" -STARTLINE}
+ int_old_y 858
+ addUserKnob {22 python_button_1 l Copy -STARTLINE T "try:\n    nnn = nuke.selectedNode()\n    read_width = nnn.width()\n    read_height = nnn.height()\n    \n    \n    nuke.thisNode().knob('int_old_x').setValue(read_width)\n    nuke.thisNode().knob('int_old_y').setValue(read_height)\nexcept:\n    print ('oops')\n\n"}
+ addUserKnob {22 python_button l "pftack >>> syntheyes" T "import os\n\nnewPath = 'D:/Projects/_OPL/3d/track/PLN_5550/trackers.txt'\n\nnewPath = nuke.thisNode().knob('file_open').value()\n\nprint (newPath)\n\nf = open(newPath,'r')\n\nlist_file = \[]\nwhile True:\n    line = f.readline()\n\n    list_file.append(line.replace('\\n', ''))\n    if not line:\n        break\n\nf.close\n\n\n\n\n\n\n\ndef convert_to_synth(old_value, old_min, old_max, new_min, new_max):\n    new_value = ( (old_value - old_min) / (old_max - old_min) ) * (new_max - new_min) + new_min\n    new_value = round(new_value, 6)\n    \n    return new_value\n\n\n\n\n\n\n\n\nold_max_x = 2048\nold_max_y = 858\n\nold_value = 316\nold_min_x = 0\nold_max_x = nuke.thisNode().knob('int_old_x').value()\nnew_min_x = -1\nnew_max_x = 1\n\n\nold_min_y = 0\nold_max_y = nuke.thisNode().knob('int_old_y').value()\nnew_max_y = 1\nnew_min_y = -1\n\n\nall_tracks_list = \[]\ncurrent_track = \[]\n\nrecord_track = False\n\nfor i in list_file:\n\n    if i.startswith ('#'):\n        continue\n    #print (i)\n\n    if i.startswith ('\"'):\n        #print (i)\n        current_track = \[]\n        record_track = True\n        i = i.replace('\"', '')\n\n    if i == (''):\n        record_track = False\n        if current_track != \[]:\n            all_tracks_list.append(current_track)\n    if record_track:\n        current_track.append(i)\n\n\n\n\nclear_track_data = \[] ###\nnew_track_data = \[]\n\nfor track in all_tracks_list:\n\n    #print (i\[0])\n    num = -1\n    clear_track_data = \[]\n    for track_line in track:\n        num = num + 1        \n        \n        if (num == 0) or (num == 1) or (num == 2):\n            print ('zzzz  ' + track_line)\n            continue\n\n        #print (track_line)\n        clear_track_data.append(track_line)\n\n        old_value_x = round(float(track_line.split(' ')\[1]), 6)\n        #print (old_value_x)\n        new_value_x_converted = convert_to_synth(old_value_x , old_min_x, old_max_x, new_min_x, new_max_x)\n\n        old_value_y = round(float(track_line.split(' ')\[2]), 6)\n        new_value_y_converted = convert_to_synth(old_value_y , old_min_y, old_max_y, new_max_y, new_min_y)\n        #print (new_value_x_converted , new_value_y_converted)\n\n        new_frame = int(track_line.split(' ')\[0])\n        if nuke.thisNode().knob('ch_frame').value():\n            new_frame = new_frame +1\n        new_frame = str(new_frame)\n\n\n        new_line = track\[0] + ' ' + new_frame + ' ' + str(new_value_x_converted) + ' ' + str(new_value_y_converted)\n        new_track_data.append(new_line)\n\n\nprint(new_track_data)\n\n\nnewPath = 'D:/Projects/_OPL/elem/PLN_5550/converted_tracks.txt'\n\n#print (nuke.thisNode())\nprint ('dsdsdsdsd')\nprint (nuke.selectedNode().knob('file_save'))\n\nnewPath = nuke.thisNode().knob('file_save').value()\n\nprint(newPath)\n\n\nwith open(newPath, \"w\") as file:\n    for  line in new_track_data:\n        file.write(line + '\\n')\nfile.close()\n\n\n#newPath=os.path.realpath(newPath)\nos.startfile(newPath.rsplit('/', 1)\[0])\n\n" +STARTLINE}
+ addUserKnob {6 ch_frame l "-1 frame" -STARTLINE}
+ addUserKnob {1 string}
+ addUserKnob {26 text_2 l "by A Bosenko 2024" +INVISIBLE}
+}
